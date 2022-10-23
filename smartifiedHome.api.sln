@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smart.api", "source\smart.api\smart.api.csproj", "{059FD0BF-9A5C-4EAA-A159-7846773A61EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smart.database", "source\smart.database\smart.database.csproj", "{BBD3C48E-76F8-4C71-8E73-6A32BD3AFB84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smart.contract", "source\smart.contract\smart.contract.csproj", "{5E4134CD-3306-4FEF-8865-60C7C19D29F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smart.resources", "source\smart.resources\smart.resources.csproj", "{DCEC2FE3-B908-4B90-B3E5-E772B6D4E8CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{059FD0BF-9A5C-4EAA-A159-7846773A61EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{059FD0BF-9A5C-4EAA-A159-7846773A61EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{059FD0BF-9A5C-4EAA-A159-7846773A61EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{059FD0BF-9A5C-4EAA-A159-7846773A61EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBD3C48E-76F8-4C71-8E73-6A32BD3AFB84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBD3C48E-76F8-4C71-8E73-6A32BD3AFB84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBD3C48E-76F8-4C71-8E73-6A32BD3AFB84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBD3C48E-76F8-4C71-8E73-6A32BD3AFB84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E4134CD-3306-4FEF-8865-60C7C19D29F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E4134CD-3306-4FEF-8865-60C7C19D29F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E4134CD-3306-4FEF-8865-60C7C19D29F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E4134CD-3306-4FEF-8865-60C7C19D29F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCEC2FE3-B908-4B90-B3E5-E772B6D4E8CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCEC2FE3-B908-4B90-B3E5-E772B6D4E8CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCEC2FE3-B908-4B90-B3E5-E772B6D4E8CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCEC2FE3-B908-4B90-B3E5-E772B6D4E8CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail","PunctuationLead"]}
+		SolutionGuid = {5614890F-885D-4231-9936-87533C0377A0}
+	EndGlobalSection
+EndGlobal

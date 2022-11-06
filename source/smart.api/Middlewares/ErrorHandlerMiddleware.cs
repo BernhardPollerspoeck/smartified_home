@@ -1,4 +1,4 @@
-﻿using smart.api.Models;
+﻿using smart.core.Models;
 using System.Net;
 using System.Text.Json;
 

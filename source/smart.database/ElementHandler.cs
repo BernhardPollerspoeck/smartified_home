@@ -18,8 +18,8 @@ public class ElementHandler
 
     public bool Enabled { get; set; }
 
-    public bool ProcessRunning { get; set; }
-    public bool SignalConnected { get; set; }
+    public bool Connected { get; set; }
 
+    public virtual ICollection<HomeElement> HomeElements { get; set; } = default!;
 
 }

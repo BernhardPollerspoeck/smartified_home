@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using smart.api.Models;
+using smart.core.Models;
 using smart.database;
 using smart.resources;
 

@@ -13,12 +13,14 @@ public class HomeElement
     [Required]
     public EElementType ElementType { get; set; } = default!;
 
+    public bool ConnectionValidated { get; set; }
 
     public string? ConnectionInfo { get; set; } = default!;
 
     public string? SettingsData { get; set; } = default!;
 
-    public string? StateData { get; set; } = default!;
+    public string? StateData { get; set; }
+    public DateTime? StateTimestamp { get; set; }
 
     public virtual ElementHandler ElementHandler { get; set; } = default!;
 

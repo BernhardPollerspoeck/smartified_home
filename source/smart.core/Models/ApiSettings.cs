@@ -1,4 +1,4 @@
-﻿namespace bp.net.Auth.Server.Models;
+﻿namespace smart.core.Models;
 
 public sealed class ApiSettings
 {

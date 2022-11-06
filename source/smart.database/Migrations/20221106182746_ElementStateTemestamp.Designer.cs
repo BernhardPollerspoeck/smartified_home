@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using smart.database;
 
@@ -10,9 +11,10 @@ using smart.database;
 namespace smart.database.Migrations
 {
     [DbContext(typeof(SmartContext))]
-    partial class SmartContextModelSnapshot : ModelSnapshot
+    [Migration("20221106182746_ElementStateTemestamp")]
+    partial class ElementStateTemestamp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,40 +84,6 @@ namespace smart.database.Migrations
                     b.HasIndex("ElementHandlerId");
 
                     b.ToTable("Elements");
-                });
-
-            modelBuilder.Entity("smart.database.LogItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("ElementName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ElementType")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("HandlerName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("MetaInfo")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("Success")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Log");
                 });
 
             modelBuilder.Entity("smart.database.User", b =>

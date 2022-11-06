@@ -5,8 +5,7 @@ public record HandlerDto(
     string Name,
     EHandlerType HandlerType,
     bool Enabled,
-    bool ProcessRunning,
-    bool SignalConnected);
+    bool Connected);
 
 
 public record CreateHandlerDto(

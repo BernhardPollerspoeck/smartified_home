@@ -1,14 +1,15 @@
 using asp.net.core.helper.core.Seed.Extensions;
-using bp.net.Auth.Server.Models;
 using Microsoft.EntityFrameworkCore;
-using smart.api.Controllers.Handlers;
+using smart.api.Hubs;
 using smart.api.Middlewares;
-using smart.api.Models;
 using smart.api.Services;
 using smart.api.Services.Handlers;
 using smart.api.Services.Handlers.ProcessControlling;
+using smart.core.Models;
 using smart.database;
 using smart.resources;
+using System.Net.WebSockets;
+using System.Security.Cryptography.Xml;
 using System.Threading.Channels;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,6 +46,8 @@ builder.Services.AddSingleton(Channel.CreateUnbounded<HandlerControlMessage>(new
 builder.Services.AddSingleton(sc => sc.GetRequiredService<Channel<HandlerControlMessage>>().Reader);
 builder.Services.AddSingleton(sc => sc.GetRequiredService<Channel<HandlerControlMessage>>().Writer);
 
+builder.Services.AddSignalR();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -80,7 +83,23 @@ app.MigrateDatabase<SmartContext>();
 app.SeedDatabase<SmartContext>(typeof(Program), app.Services);
 #endregion
 
+#region shutdown registration
+app.Lifetime.ApplicationStopped.Register(async () =>
+{
+    var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<SmartContext>();
+    var handlers = db.ElementHandlers.Where(h => h.Connected).ToList();
+    foreach (var item in handlers)
+    {
+        item.Connected = false;
+    }
+    await db.SaveChangesAsync();
+});
+#endregion
+
 
 app.MapControllers();
+
+app.MapHub<HandlerHub>("/handlerHub");
 
 app.Run();

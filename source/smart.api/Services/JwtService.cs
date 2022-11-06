@@ -1,4 +1,5 @@
-﻿using bp.net.Auth.Server.Models;
+﻿
+using smart.core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

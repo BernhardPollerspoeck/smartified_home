@@ -61,6 +61,15 @@ namespace smart.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Element not found.
+        /// </summary>
+        public static string Api_Ex_element_not_found {
+            get {
+                return ResourceManager.GetString("Api_Ex_element_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Element-handler not found.
         /// </summary>
         public static string Api_Ex_handler_not_found {

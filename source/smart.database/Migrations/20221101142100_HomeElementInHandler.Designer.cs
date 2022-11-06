@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using smart.database;
 
@@ -10,9 +11,10 @@ using smart.database;
 namespace smart.database.Migrations
 {
     [DbContext(typeof(SmartContext))]
-    partial class SmartContextModelSnapshot : ModelSnapshot
+    [Migration("20221101142100_HomeElementInHandler")]
+    partial class HomeElementInHandler
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,9 +27,6 @@ namespace smart.database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<bool>("Connected")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<int>("ElementType")
                         .HasColumnType("int");
 
@@ -38,8 +37,14 @@ namespace smart.database.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("ProcessRunning")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("SettingsData")
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("SignalConnected")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
@@ -54,9 +59,6 @@ namespace smart.database.Migrations
 
                     b.Property<string>("ConnectionInfo")
                         .HasColumnType("longtext");
-
-                    b.Property<bool>("ConnectionValidated")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("ElementHandlerId")
                         .HasColumnType("int");
@@ -74,48 +76,11 @@ namespace smart.database.Migrations
                     b.Property<string>("StateData")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("StateTimestamp")
-                        .HasColumnType("datetime(6)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ElementHandlerId");
 
                     b.ToTable("Elements");
-                });
-
-            modelBuilder.Entity("smart.database.LogItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("ElementName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ElementType")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("HandlerName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("MetaInfo")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("Success")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Log");
                 });
 
             modelBuilder.Entity("smart.database.User", b =>

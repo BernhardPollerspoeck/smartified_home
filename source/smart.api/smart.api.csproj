@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\smart.contract\smart.contract.csproj" />
+    <ProjectReference Include="..\smart.core\smart.core.csproj" />
     <ProjectReference Include="..\smart.database\smart.database.csproj" />
     <ProjectReference Include="..\smart.resources\smart.resources.csproj" />
   </ItemGroup>

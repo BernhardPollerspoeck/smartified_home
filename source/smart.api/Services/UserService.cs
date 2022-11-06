@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using smart.api.Models;
 using smart.contract;
+using smart.core.Models;
 using smart.database;
 using smart.resources;
 using BCryptNet = BCrypt.Net.BCrypt;

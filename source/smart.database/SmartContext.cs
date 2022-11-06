@@ -13,9 +13,8 @@ public class SmartContext : DbContext
 
     public DbSet<User> Users { get; set; } = default!;
 
-    public DbSet<ImageInfo> ImageInfos { get; set; } = default!;
-
     public DbSet<ElementHandler> ElementHandlers { get; set; } = default!;
     public DbSet<HomeElement> Elements { get; set; } = default!;
 
+    public DbSet<LogItem> Log { get; set; } = default!;
 }

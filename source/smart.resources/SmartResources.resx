@@ -147,4 +147,7 @@
   <data name="Api_Ex_handler_not_found" xml:space="preserve">
     <value>Element-handler not found</value>
   </data>
+  <data name="Api_Ex_element_not_found" xml:space="preserve">
+    <value>Element not found</value>
+  </data>
 </root>

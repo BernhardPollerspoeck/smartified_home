@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using smart.api.Models;
+using smart.core.Models;
 using smart.api.Services.Handlers.ProcessControlling;
 using smart.contract;
 using smart.database;
@@ -30,8 +30,7 @@ public class HandlerService
                 h.Name,
                 (EHandlerType)h.ElementType,
                 h.Enabled,
-                h.ProcessRunning,
-                h.SignalConnected)));
+                h.Connected)));
     }
 
     public async Task<HandlerDto> Create(CreateHandlerDto dto)
@@ -40,8 +39,7 @@ public class HandlerService
         {
             Name = dto.Name,
             ElementType = (EElementType)dto.HandlerType,
-            ProcessRunning = false,
-            SignalConnected = false,
+            Connected = false,
         };
         _context.ElementHandlers.Add(newHandler);
         await _context.SaveChangesAsync();
@@ -50,8 +48,7 @@ public class HandlerService
             newHandler.Name,
             (EHandlerType)newHandler.ElementType,
             newHandler.Enabled,
-            newHandler.ProcessRunning,
-            newHandler.SignalConnected);
+            newHandler.Connected);
     }
 
     public async Task<HandlerDto> Enable(int handlerId, bool enabled)
@@ -80,8 +77,7 @@ public class HandlerService
             existing.Name,
             (EHandlerType)existing.ElementType,
             existing.Enabled,
-            existing.ProcessRunning,
-            existing.SignalConnected);
+            existing.Connected);
     }
 
 }

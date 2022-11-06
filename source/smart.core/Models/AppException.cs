@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Net;
 
-namespace smart.api.Models;
+namespace smart.core.Models;
 public sealed class AppException : Exception
 {
     public HttpStatusCode? StatusCode { get; }

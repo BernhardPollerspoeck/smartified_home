@@ -4,7 +4,6 @@ public record HandlerDto(
     int Id,
     string Name,
     EHandlerType HandlerType,
-    bool Enabled,
     bool Connected);
 
 

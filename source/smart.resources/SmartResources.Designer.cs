@@ -158,5 +158,68 @@ namespace smart.resources {
                 return ResourceManager.GetString("Api_Msg_token_revoked", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown client in HandlerHub.
+        /// </summary>
+        public static string Log_anonymous_connection {
+            get {
+                return ResourceManager.GetString("Log_anonymous_connection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create element.
+        /// </summary>
+        public static string Log_create_element {
+            get {
+                return ResourceManager.GetString("Log_create_element", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create element handler.
+        /// </summary>
+        public static string Log_create_handler {
+            get {
+                return ResourceManager.GetString("Log_create_handler", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Element command.
+        /// </summary>
+        public static string Log_element_command {
+            get {
+                return ResourceManager.GetString("Log_element_command", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Element state changed.
+        /// </summary>
+        public static string Log_element_state_changed {
+            get {
+                return ResourceManager.GetString("Log_element_state_changed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Handler offline.
+        /// </summary>
+        public static string Log_handler_offline {
+            get {
+                return ResourceManager.GetString("Log_handler_offline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Handler online.
+        /// </summary>
+        public static string Log_handler_online {
+            get {
+                return ResourceManager.GetString("Log_handler_online", resourceCulture);
+            }
+        }
     }
 }

@@ -8,16 +8,20 @@ using smart.contract.Handler;
 using smart.core.Models;
 using smart.database;
 using smart.handler.shelly.Models;
+using smart.resources;
+using System.ComponentModel;
 using System.Globalization;
 using System.Net.WebSockets;
 using System.Text.Json;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Xml.Linq;
 
 namespace smart.handler.shelly.Services;
 
 internal class MainHandler : BackgroundService
 {
     #region fields
-    private readonly List<HomeElement> _elements;
+    private readonly List<ShellyHomeElement> _elements;
 
     private readonly IServiceProvider _serviceProvider;
     private readonly IOptions<HandlerSettings> _options;
@@ -41,70 +45,61 @@ internal class MainHandler : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        #region hub connection
-        _hubConnection = new HubConnectionBuilder()
-        .WithUrl("http://localhost:5011/handlerHub")
-            .Build();
-        _hubConnection.Closed += async (error) =>
+        try
         {
-            Console.WriteLine("Connection lost. retry in a bit");
-            while (_hubConnection.State is not HubConnectionState.Connected)
+            #region hub connection
+            _hubConnection = new HubConnectionBuilder()
+            .WithUrl("http://localhost:5011/handlerHub")
+                .Build();
+            _hubConnection.Closed += async (error) =>
             {
-                await Task.Delay(3000);
-                try
+                Console.WriteLine("Connection lost. retry in a bit");
+                while (_hubConnection.State is not HubConnectionState.Connected)
                 {
-                    var cts = new CancellationTokenSource();
-                    cts.CancelAfter(2000);
-                    Console.WriteLine("Trying connection");
-                    await _hubConnection.StartAsync(cts.Token);
-                }
-                catch { }//continue
+                    await Task.Delay(3000);
+                    try
+                    {
+                        var cts = new CancellationTokenSource();
+                        cts.CancelAfter(2000);
+                        Console.WriteLine($"{DateTime.Now} Trying connection");
+                        await _hubConnection.StartAsync(cts.Token);
+                    }
+                    catch { }//continue
 
-            }
+                }
+                await _hubConnection.SendAsync("ReportHandlerType", _options.Value.Id, EHandlerType.Shelly1, cancellationToken: stoppingToken);
+
+            };
+
+            _hubConnection.On<int, string>("NewElement", HandleNewElement);
+            _hubConnection.On<int, string>("SendElementCommand", HandleElementCommand);
+            _hubConnection.On("PollElements", HandlePollElements);
+
+            await _hubConnection.StartAsync(stoppingToken);
+
             await _hubConnection.SendAsync("ReportHandlerType", _options.Value.Id, EHandlerType.Shelly1, cancellationToken: stoppingToken);
+            #endregion
 
-        };
+            #region load my elements
+            var scope = _serviceProvider.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<SmartContext>();
 
-        _hubConnection.On<int, string>("NewElement", HandleNewElement);
-        _hubConnection.On<int, string>("SendElementCommand", HandleElementCommand);
-
-        await _hubConnection.StartAsync(stoppingToken);
-
-        await _hubConnection.SendAsync("ReportHandlerType", _options.Value.Id, EHandlerType.Shelly1, cancellationToken: stoppingToken);
-        #endregion
-
-        #region load my elements
-        var scope = _serviceProvider.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<SmartContext>();
-
-        var handler = db
-            .ElementHandlers
-            .Include(h => h.HomeElements)
-            .First(h => h.Id == _options.Value.Id);
-        foreach (var item in handler.HomeElements)
-        {
-            _elements.Add(item);
-        }
-        #endregion
-
-        #region tmp
-        while (!stoppingToken.IsCancellationRequested)
-        {
-            continue;
-            foreach (var item in _elements)
+            var handler = db
+                .ElementHandlers
+                .Include(h => h.HomeElements)
+                .First(h => h.Id == _options.Value.Id);
+            foreach (var item in handler.HomeElements)
             {
-                var shellyState = await GetState(item.ConnectionInfo, item.Id);
-                if (shellyState is not null)
-                {
-                    item.StateData = JsonSerializer.Serialize(shellyState);
-                }
+                _elements.Add(new ShellyHomeElement(item));
             }
-            await db.SaveChangesAsync(stoppingToken);
+            #endregion
 
-            await Task.Delay(2000, stoppingToken);
+            await PollState();
         }
-        #endregion
-        //oe reconnect 
+        catch (Exception ex)
+        {
+
+        }
     }
 
     #region signalR handler
@@ -113,10 +108,13 @@ internal class MainHandler : BackgroundService
         var scope = _serviceProvider.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<SmartContext>();
 
-        var newElement = await db.Elements.FirstOrDefaultAsync(e => e.Id == id);
+        var newElement = await db
+            .Elements
+            .Include(e => e.ElementHandler)
+            .FirstOrDefaultAsync(e => e.Id == id);
         if (newElement is not null)
         {
-            _elements.Add(newElement);
+            _elements.Add(new ShellyHomeElement(newElement));
         }
     }
     private async Task HandleElementCommand(int id, string command)
@@ -126,7 +124,6 @@ internal class MainHandler : BackgroundService
         {
             return;
         }
-
 
         var isCommandValid = ValidateCommand(command);
         if (!isCommandValid)
@@ -140,15 +137,14 @@ internal class MainHandler : BackgroundService
             var scope = _serviceProvider.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<SmartContext>();
 
-            var cmdResult = await client.GetAsync($"http://{element.ConnectionInfo}/relay/0?turn={command}");
+            var cmdResult = await client.GetAsync($"http://{element.Connection}/relay/0?turn={command}");
             db.Log.Add(new LogItem
             {
-                Type = LogItem.TYPE_COMMAND,
                 ElementName = element.Name,
                 ElementType = element.ElementType.ToString(),
-                MetaInfo = command,
-                Success = cmdResult.IsSuccessStatusCode,
-                HandlerName = element.ElementHandler.Name,
+                HandlerName = element.HandlerName,
+                MetaInfo = $"{SmartResources.Log_element_command}: [{command}] success:{cmdResult.IsSuccessStatusCode}",
+                Timestamp = DateTime.UtcNow,
             });
             await db.SaveChangesAsync();
         }
@@ -157,9 +153,60 @@ internal class MainHandler : BackgroundService
             Console.WriteLine(ex);
         }
     }
+    private Task HandlePollElements()
+    {//todo: only poll required elements
+        return PollState();
+    }
     #endregion
 
-    #region data getter
+    #region state handling
+    private async Task PollState()
+    {
+        var scope = _serviceProvider.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<SmartContext>();
+
+        var changed = new List<int>();
+
+        foreach (var item in _elements)
+        {
+            var shellyState = await GetState(item.Connection, item.Id);
+            if (shellyState is not null)
+            {
+                if (shellyState.IsOn == item.ItemState?.IsOn)
+                {//no state change
+
+                }
+                else
+                {
+                    item.ItemState = shellyState;
+                    var dbItem = db
+                        .Elements
+                        .Include(e => e.ElementHandler)
+                        .FirstOrDefault(el => el.Id == item.Id);
+                    if (dbItem is not null)
+                    {
+                        dbItem.StateData = JsonSerializer.Serialize(shellyState);
+                        dbItem.StateTimestamp = DateTime.UtcNow;
+                        dbItem.ConnectionValidated = true;//not null is change enough
+                        db.Log.Add(new LogItem
+                        {
+                            ElementName = item.Name,
+                            ElementType = item.ElementType.ToString(),
+                            HandlerName = dbItem.ElementHandler.Name,
+                            MetaInfo = $"{SmartResources.Log_element_state_changed}: [IsOn:{shellyState.IsOn}]",
+                            Timestamp = DateTime.UtcNow,
+                        });
+                    }
+                    changed.Add(item.Id);
+
+                }
+            }
+        }
+        await db.SaveChangesAsync();
+
+        await _hubConnection.SendAsync("ElementStatesChanged", changed);
+
+    }
     private async Task<ShellyStateDto?> GetState(string? connectionInfo, int id)
     {
         var client = _clientFactory.CreateClient();
@@ -167,11 +214,13 @@ internal class MainHandler : BackgroundService
         {
             var result = await client.GetStringAsync($"http://{connectionInfo}/status");
             var resultObject = JsonSerializer.Deserialize<ShellyStateResult>(result);
-            return new ShellyStateDto(
-                id,
-                resultObject!.Relays[0].Ison,
-                resultObject.Time,
-                DateTime.UtcNow);
+            return new ShellyStateDto
+            {
+                Id = id,
+                IsOn = resultObject!.Relays[0].Ison,
+                DeviceTime = resultObject.Time,
+                StateTimestamp = DateTime.UtcNow
+            };
         }
         catch
         {

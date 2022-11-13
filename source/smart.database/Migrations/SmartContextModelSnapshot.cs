@@ -31,9 +31,6 @@ namespace smart.database.Migrations
                     b.Property<int>("ElementType")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -91,27 +88,20 @@ namespace smart.database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ElementName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("ElementType")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("HandlerName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("MetaInfo")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<bool>("Success")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 

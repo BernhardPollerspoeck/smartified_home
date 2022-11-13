@@ -54,6 +54,14 @@ public class ElementController : BaseController
             ConnectionInfo = dto.ConnectionInfo,
         };
         _context.Elements.Add(element);
+        _context.Log.Add(new LogItem
+        {
+            ElementName = dto.Name,
+            ElementType = dto.ElementType.ToString(),
+            HandlerName = handler.Name,
+            MetaInfo = SmartResources.Log_create_element,
+            Timestamp = DateTime.UtcNow,
+        });
         await _context.SaveChangesAsync();
 
         await HandlerHub.NewElement(_hubContext, element.Id, dto.ConnectionInfo, handler.Id);

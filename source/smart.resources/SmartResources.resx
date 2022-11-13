@@ -150,4 +150,25 @@
   <data name="Api_Ex_element_not_found" xml:space="preserve">
     <value>Element not found</value>
   </data>
+  <data name="Log_create_handler" xml:space="preserve">
+    <value>Create element handler</value>
+  </data>
+  <data name="Log_create_element" xml:space="preserve">
+    <value>Create element</value>
+  </data>
+  <data name="Log_element_command" xml:space="preserve">
+    <value>Element command</value>
+  </data>
+  <data name="Log_element_state_changed" xml:space="preserve">
+    <value>Element state changed</value>
+  </data>
+  <data name="Log_handler_offline" xml:space="preserve">
+    <value>Handler offline</value>
+  </data>
+  <data name="Log_anonymous_connection" xml:space="preserve">
+    <value>Unknown client in HandlerHub</value>
+  </data>
+  <data name="Log_handler_online" xml:space="preserve">
+    <value>Handler online</value>
+  </data>
 </root>

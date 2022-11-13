@@ -29,7 +29,6 @@ public class HandlerService
                 h.Id,
                 h.Name,
                 (EHandlerType)h.ElementType,
-                h.Enabled,
                 h.Connected)));
     }
 
@@ -42,42 +41,19 @@ public class HandlerService
             Connected = false,
         };
         _context.ElementHandlers.Add(newHandler);
+        _context.Log.Add(new LogItem
+        {
+            HandlerName = dto.Name,
+            ElementType = dto.HandlerType.ToString(),
+            MetaInfo = SmartResources.Log_create_handler,
+            Timestamp = DateTime.UtcNow,
+        });
         await _context.SaveChangesAsync();
+
         return new HandlerDto(
             newHandler.Id,
             newHandler.Name,
             (EHandlerType)newHandler.ElementType,
-            newHandler.Enabled,
             newHandler.Connected);
     }
-
-    public async Task<HandlerDto> Enable(int handlerId, bool enabled)
-    {
-        #region update database value
-        var existing = await _context
-            .ElementHandlers
-            .FirstOrDefaultAsync(h => h.Id == handlerId);
-        if (existing is null)
-        {
-            throw new AppException(SmartResources.Api_Ex_handler_not_found);
-        }
-        existing.Enabled = enabled;
-        await _context.SaveChangesAsync();
-        #endregion
-
-        #region notify handler control service
-        await _channelWriter.WriteAsync(
-            new HandlerControlMessage(
-                enabled ? EHandlerAction.Enabled : EHandlerAction.Disabled,
-                handlerId));
-        #endregion
-
-        return new HandlerDto(
-            existing.Id,
-            existing.Name,
-            (EHandlerType)existing.ElementType,
-            existing.Enabled,
-            existing.Connected);
-    }
-
 }

@@ -16,8 +16,6 @@ public class ElementHandler
 
     public string? SettingsData { get; set; } = default!;
 
-    public bool Enabled { get; set; }
-
     public bool Connected { get; set; }
 
     public virtual ICollection<HomeElement> HomeElements { get; set; } = default!;

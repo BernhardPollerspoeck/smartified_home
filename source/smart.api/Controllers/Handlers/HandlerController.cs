@@ -35,11 +35,5 @@ public class HandlerController : BaseController
         return Ok(result);
     }
 
-    [HttpPost("{handlerId}/enable/{enabled}")]
-    public async Task<IActionResult> Enable(int handlerId, bool enabled)
-    {
-        var result = await _handlerService.Enable(handlerId, enabled);
-        return Ok(result);
-    }
-
+   
 }

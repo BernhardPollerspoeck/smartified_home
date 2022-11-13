@@ -8,8 +8,6 @@ using smart.api.Services.Handlers.ProcessControlling;
 using smart.core.Models;
 using smart.database;
 using smart.resources;
-using System.Net.WebSockets;
-using System.Security.Cryptography.Xml;
 using System.Threading.Channels;
 
 var builder = WebApplication.CreateBuilder(args);

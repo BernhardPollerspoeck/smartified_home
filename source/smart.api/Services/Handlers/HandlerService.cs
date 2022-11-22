@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using smart.core.Models;
-using smart.api.Services.Handlers.ProcessControlling;
-using smart.contract;
+﻿using smart.contract;
 using smart.database;
 using smart.resources;
 using System.Threading.Channels;
@@ -11,11 +8,11 @@ namespace smart.api.Services.Handlers;
 public class HandlerService
 {
     private readonly SmartContext _context;
-    private readonly ChannelWriter<HandlerControlMessage> _channelWriter;
+    private readonly ChannelWriter<ElementHandler> _channelWriter;
 
     public HandlerService(
         SmartContext context,
-        ChannelWriter<HandlerControlMessage> channelWriter)
+        ChannelWriter<ElementHandler> channelWriter)
     {
         _context = context;
         _channelWriter = channelWriter;
@@ -28,7 +25,7 @@ public class HandlerService
             .Select(h => new HandlerDto(
                 h.Id,
                 h.Name,
-                (EHandlerType)h.ElementType,
+                h.HandlerType,
                 h.Connected)));
     }
 
@@ -37,23 +34,24 @@ public class HandlerService
         var newHandler = new ElementHandler
         {
             Name = dto.Name,
-            ElementType = (EElementType)dto.HandlerType,
+            HandlerType = dto.HandlerType,
             Connected = false,
         };
         _context.ElementHandlers.Add(newHandler);
         _context.Log.Add(new LogItem
         {
             HandlerName = dto.Name,
-            ElementType = dto.HandlerType.ToString(),
+            Type = dto.HandlerType.ToString(),
             MetaInfo = SmartResources.Log_create_handler,
             Timestamp = DateTime.UtcNow,
         });
         await _context.SaveChangesAsync();
+        await _channelWriter.WriteAsync(newHandler);
 
         return new HandlerDto(
             newHandler.Id,
             newHandler.Name,
-            (EHandlerType)newHandler.ElementType,
+            newHandler.HandlerType,
             newHandler.Connected);
     }
 }

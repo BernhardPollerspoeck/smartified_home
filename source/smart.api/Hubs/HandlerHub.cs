@@ -34,7 +34,7 @@ public class HandlerHub : Hub
                 handler.Connected = false;
                 _context.Log.Add(new LogItem
                 {
-                    ElementType = handler.ElementType.ToString(),
+                    Type = $"{SmartResources.Handler}: {handler.HandlerType}",
                     HandlerName = handler.Name,
                     MetaInfo = SmartResources.Log_handler_offline,
                     Timestamp = DateTime.UtcNow,
@@ -89,7 +89,7 @@ public class HandlerHub : Hub
         var handler = await _context
             .ElementHandlers
             .FirstOrDefaultAsync(h => h.Id == handlerId
-                && ((EHandlerType)h.ElementType) == handlerType);
+                && h.HandlerType == handlerType);
         if (handler is null)
         {
             return;
@@ -100,7 +100,7 @@ public class HandlerHub : Hub
 
         _context.Log.Add(new LogItem
         {
-            ElementType = handler.ElementType.ToString(),
+            Type = $"{SmartResources.Handler}: {handler.HandlerType}",
             HandlerName = $"{handler.Name} - {Context.ConnectionId}",
             MetaInfo = SmartResources.Log_handler_online,
             Timestamp = DateTime.UtcNow,
@@ -111,7 +111,7 @@ public class HandlerHub : Hub
     }
     public Task ElementStatesChanged(List<int> elements)
     {
-
+        //TODO: notify app clients
 
         return Task.CompletedTask;
     }

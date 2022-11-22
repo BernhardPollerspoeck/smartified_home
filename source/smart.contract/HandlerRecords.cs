@@ -18,5 +18,5 @@ public enum EHandlerType
     Unknown = 0,
     Internal = 1,
 
-    Shelly1 = 2,
+    Shelly = 2,
 }

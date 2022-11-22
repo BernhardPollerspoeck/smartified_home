@@ -171,4 +171,10 @@
   <data name="Log_handler_online" xml:space="preserve">
     <value>Handler online</value>
   </data>
+  <data name="Element" xml:space="preserve">
+    <value>Element</value>
+  </data>
+  <data name="Handler" xml:space="preserve">
+    <value>Handler</value>
+  </data>
 </root>

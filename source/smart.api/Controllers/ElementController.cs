@@ -37,10 +37,7 @@ public class ElementController : BaseController
     {
         var handler = await _context
             .ElementHandlers
-            .Include(h => h.HomeElements)
-            .Where(h => h.ElementType == (EElementType)dto.ElementType)
-            .OrderBy(h => h.HomeElements.Count)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(h => h.HandlerType == dto.HandlerType);
         if (handler is null)
         {
             throw new AppException(SmartResources.Api_Ex_handler_not_found);
@@ -49,7 +46,7 @@ public class ElementController : BaseController
         var element = new HomeElement
         {
             ElementHandler = handler,
-            ElementType = (EElementType)dto.ElementType,
+            ElementType = dto.ElementType,
             Name = dto.Name,
             ConnectionInfo = dto.ConnectionInfo,
         };
@@ -57,7 +54,7 @@ public class ElementController : BaseController
         _context.Log.Add(new LogItem
         {
             ElementName = dto.Name,
-            ElementType = dto.ElementType.ToString(),
+            Type = $"{SmartResources.Element}: {dto.ElementType}",
             HandlerName = handler.Name,
             MetaInfo = SmartResources.Log_create_element,
             Timestamp = DateTime.UtcNow,
@@ -93,7 +90,7 @@ public class ElementController : BaseController
             .Select(e => new ElementDto(
                 e.Id,
                 e.Name,
-                (EHandlerType)e.ElementType,
+                e.ElementType,
                 e.ConnectionValidated)));
     }
 

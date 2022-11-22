@@ -22,8 +22,8 @@ public abstract class BaseController : ControllerBase
     {
         // get source ip address for the current request
         return Request.Headers.ContainsKey("X-Forwarded-For")
-            ? Request.Headers["X-Forwarded-For"]
-            : HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString() ?? string.Empty;
+            ? Request.Headers["X-Forwarded-For"].ToString()
+            : HttpContext.Connection.RemoteIpAddress?.MapToIPv4()?.ToString() ?? string.Empty;
     }
     #endregion
 }

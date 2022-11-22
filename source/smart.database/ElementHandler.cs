@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using smart.contract;
+using System.ComponentModel.DataAnnotations;
 
 namespace smart.database;
 
@@ -11,7 +12,7 @@ public class ElementHandler
     public string Name { get; set; } = default!;
 
     [Required]
-    public EElementType ElementType { get; set; } = default!;
+    public EHandlerType HandlerType { get; set; } = default!;
 
 
     public string? SettingsData { get; set; } = default!;

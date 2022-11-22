@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using smart.contract;
+using System.ComponentModel.DataAnnotations;
 
 namespace smart.database;
 

@@ -4,7 +4,6 @@ using smart.api.Hubs;
 using smart.api.Middlewares;
 using smart.api.Services;
 using smart.api.Services.Handlers;
-using smart.api.Services.Handlers.ProcessControlling;
 using smart.core.Models;
 using smart.database;
 using smart.resources;
@@ -34,15 +33,16 @@ builder.Services.AddScoped<IPasswordRuleService, PasswordRuleService>();
 #endregion
 
 builder.Services.AddTransient<HandlerService>();
-builder.Services.AddHostedService<HandlerControlService>();
+
+builder.Services.AddHostedService<HandlerProcessService>();
 
 //channel streaming
-builder.Services.AddSingleton(Channel.CreateUnbounded<HandlerControlMessage>(new UnboundedChannelOptions
+builder.Services.AddSingleton(Channel.CreateUnbounded<ElementHandler>(new UnboundedChannelOptions
 {
     SingleReader = true,
 }));
-builder.Services.AddSingleton(sc => sc.GetRequiredService<Channel<HandlerControlMessage>>().Reader);
-builder.Services.AddSingleton(sc => sc.GetRequiredService<Channel<HandlerControlMessage>>().Writer);
+builder.Services.AddSingleton(sc => sc.GetRequiredService<Channel<ElementHandler>>().Reader);
+builder.Services.AddSingleton(sc => sc.GetRequiredService<Channel<ElementHandler>>().Writer);
 
 builder.Services.AddSignalR();
 

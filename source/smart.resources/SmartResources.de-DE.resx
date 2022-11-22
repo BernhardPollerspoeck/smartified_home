@@ -118,27 +118,63 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Api_Ex_user_not_found" xml:space="preserve">
-    <value>Benutzer-ID nicht gefunden!</value>
+    <value>Benutzer nicht gefunden.</value>
   </data>
   <data name="Api_Ex_invalid_login" xml:space="preserve">
-    <value>Ungültiger Login!</value>
+    <value>Ungültiger Login.</value>
   </data>
   <data name="Api_Ex_refresh_token_not_found" xml:space="preserve">
-    <value>Refresh-Token nicht gefunden!</value>
+    <value>Refresh-Token nicht gefunden.</value>
   </data>
   <data name="Api_Ex_invalid_token" xml:space="preserve">
-    <value>Refresh-Token ist ungültig!</value>
+    <value>Refresh-Token ist ungültig.</value>
   </data>
   <data name="Api_Ex_invalid_password" xml:space="preserve">
-    <value>Das Passwort stimmt nicht mit den Regeln überein!</value>
+    <value>Das Passwort stimmt nicht mit den Regeln überein.</value>
   </data>
   <data name="Api_Ex_repeated_password_different" xml:space="preserve">
-    <value>Wiederholtes Passwort unterscheidet sich vom neuen Passwor.!</value>
+    <value>Wiederholtes Passwort unterscheidet sich vom neuen Passwort.</value>
   </data>
   <data name="Api_Init_missing_urls" xml:space="preserve">
-    <value>Fehlende Host-Einstellungen!</value>
+    <value>Fehlende Host-Einstellungen</value>
   </data>
   <data name="Api_Init_missing_database" xml:space="preserve">
     <value>Fehlende Datenbankverbindung</value>
+  </data>
+  <data name="Api_Msg_token_revoked" xml:space="preserve">
+    <value>Aktualisierungs-Token invalidiert</value>
+  </data>
+  <data name="Api_Ex_handler_not_found" xml:space="preserve">
+    <value>Element-Handler nicht gefunden</value>
+  </data>
+  <data name="Api_Ex_element_not_found" xml:space="preserve">
+    <value>Element nicht gefunden in</value>
+  </data>
+  <data name="Log_create_handler" xml:space="preserve">
+    <value>Element-Handler erstellen</value>
+  </data>
+  <data name="Log_create_element" xml:space="preserve">
+    <value>Element anlegen</value>
+  </data>
+  <data name="Log_element_command" xml:space="preserve">
+    <value>Elementkommando</value>
+  </data>
+  <data name="Log_element_state_changed" xml:space="preserve">
+    <value>Elementstatus geändert</value>
+  </data>
+  <data name="Log_handler_offline" xml:space="preserve">
+    <value>Handler offline</value>
+  </data>
+  <data name="Log_anonymous_connection" xml:space="preserve">
+    <value>Unbekannter Client in HandlerHub</value>
+  </data>
+  <data name="Log_handler_online" xml:space="preserve">
+    <value>Handler online</value>
+  </data>
+  <data name="Element" xml:space="preserve">
+    <value>Element</value>
+  </data>
+  <data name="Handler" xml:space="preserve">
+    <value>Bediener</value>
   </data>
 </root>

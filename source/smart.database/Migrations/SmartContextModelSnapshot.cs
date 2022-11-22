@@ -28,7 +28,7 @@ namespace smart.database.Migrations
                     b.Property<bool>("Connected")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("ElementType")
+                    b.Property<int>("HandlerType")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -90,9 +90,6 @@ namespace smart.database.Migrations
                     b.Property<string>("ElementName")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("ElementType")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("HandlerName")
                         .HasColumnType("longtext");
 
@@ -102,6 +99,9 @@ namespace smart.database.Migrations
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 

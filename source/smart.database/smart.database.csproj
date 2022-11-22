@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\smart.contract\smart.contract.csproj" />
   </ItemGroup>
 
 </Project>

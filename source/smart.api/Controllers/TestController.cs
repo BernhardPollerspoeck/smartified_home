@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using smart.api.Hubs;
-using smart.api.Services.Handlers;
-using smart.api.Services.Handlers.ProcessControlling;
-using System.Threading.Channels;
 
 namespace smart.api.Controllers;
 

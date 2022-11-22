@@ -160,6 +160,24 @@ namespace smart.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Element.
+        /// </summary>
+        public static string Element {
+            get {
+                return ResourceManager.GetString("Element", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Handler.
+        /// </summary>
+        public static string Handler {
+            get {
+                return ResourceManager.GetString("Handler", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown client in HandlerHub.
         /// </summary>
         public static string Log_anonymous_connection {

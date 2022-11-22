@@ -1,4 +1,5 @@
 ﻿using smart.contract;
+using smart.core.Models;
 using smart.database;
 using smart.resources;
 using System.Threading.Channels;
@@ -31,6 +32,10 @@ public class HandlerService
 
     public async Task<HandlerDto> Create(CreateHandlerDto dto)
     {
+        if (_context.ElementHandlers.Any(h => h.HandlerType == dto.HandlerType))
+        {
+            throw new AppException(SmartResources.Api_Ex_handler_already_existing);
+        }
         var newHandler = new ElementHandler
         {
             Name = dto.Name,

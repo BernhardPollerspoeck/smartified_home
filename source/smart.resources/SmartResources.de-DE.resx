@@ -177,4 +177,7 @@
   <data name="Handler" xml:space="preserve">
     <value>Bediener</value>
   </data>
+  <data name="Api_Ex_handler_already_existing" xml:space="preserve">
+    <value>Dieser Handler ist bereits vorhanden</value>
+  </data>
 </root>

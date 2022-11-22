@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -9,11 +10,8 @@ using smart.core.Models;
 using smart.database;
 using smart.handler.shelly.Models;
 using smart.resources;
-using System.ComponentModel;
-using System.Globalization;
 using System.Net.WebSockets;
 using System.Text.Json;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Xml.Linq;
 
 namespace smart.handler.shelly.Services;
@@ -24,82 +22,74 @@ internal class MainHandler : BackgroundService
     private readonly List<ShellyHomeElement> _elements;
 
     private readonly IServiceProvider _serviceProvider;
-    private readonly IOptions<HandlerSettings> _options;
     private readonly IHttpClientFactory _clientFactory;
-
-    private HubConnection _hubConnection;
+    private readonly int _id;
+    private HubConnection? _hubConnection;
     #endregion
 
     #region ctor
     public MainHandler(
         IServiceProvider serviceProvider,
-        IOptions<HandlerSettings> options,
+        IConfiguration configuration,
         IHttpClientFactory clientFactory)
     {
         _elements = new();
         _serviceProvider = serviceProvider;
-        _options = options;
         _clientFactory = clientFactory;
+        _id = configuration.GetValue<int>("id");
     }
     #endregion
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        try
+        #region hub connection
+        _hubConnection = new HubConnectionBuilder()
+        .WithUrl("http://localhost:5011/handlerHub")
+            .Build();
+        _hubConnection.Closed += async (error) =>
         {
-            #region hub connection
-            _hubConnection = new HubConnectionBuilder()
-            .WithUrl("http://localhost:5011/handlerHub")
-                .Build();
-            _hubConnection.Closed += async (error) =>
+            Console.WriteLine("Connection lost. retry in a bit");
+            while (_hubConnection.State is not HubConnectionState.Connected)
             {
-                Console.WriteLine("Connection lost. retry in a bit");
-                while (_hubConnection.State is not HubConnectionState.Connected)
+                await Task.Delay(3000);
+                try
                 {
-                    await Task.Delay(3000);
-                    try
-                    {
-                        var cts = new CancellationTokenSource();
-                        cts.CancelAfter(2000);
-                        Console.WriteLine($"{DateTime.Now} Trying connection");
-                        await _hubConnection.StartAsync(cts.Token);
-                    }
-                    catch { }//continue
-
+                    var cts = new CancellationTokenSource();
+                    cts.CancelAfter(2000);
+                    Console.WriteLine($"{DateTime.Now} Trying connection");
+                    await _hubConnection.StartAsync(cts.Token);
                 }
-                await _hubConnection.SendAsync("ReportHandlerType", _options.Value.Id, EHandlerType.Shelly1, cancellationToken: stoppingToken);
+                catch { }//continue
 
-            };
-
-            _hubConnection.On<int, string>("NewElement", HandleNewElement);
-            _hubConnection.On<int, string>("SendElementCommand", HandleElementCommand);
-            _hubConnection.On("PollElements", HandlePollElements);
-
-            await _hubConnection.StartAsync(stoppingToken);
-
-            await _hubConnection.SendAsync("ReportHandlerType", _options.Value.Id, EHandlerType.Shelly1, cancellationToken: stoppingToken);
-            #endregion
-
-            #region load my elements
-            var scope = _serviceProvider.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<SmartContext>();
-
-            var handler = db
-                .ElementHandlers
-                .Include(h => h.HomeElements)
-                .First(h => h.Id == _options.Value.Id);
-            foreach (var item in handler.HomeElements)
-            {
-                _elements.Add(new ShellyHomeElement(item));
             }
-            #endregion
+            await _hubConnection.SendAsync("ReportHandlerType", _id, EHandlerType.Shelly, cancellationToken: stoppingToken);
 
-            await PollState();
-        }
-        catch (Exception ex)
+        };
+
+        _hubConnection.On<int, string>("NewElement", HandleNewElement);
+        _hubConnection.On<int, string>("SendElementCommand", HandleElementCommand);
+        _hubConnection.On("PollElements", HandlePollElements);
+
+        await _hubConnection.StartAsync(stoppingToken);
+
+        await _hubConnection.SendAsync("ReportHandlerType", _id, EHandlerType.Shelly, cancellationToken: stoppingToken);
+        #endregion
+
+        #region load my elements
+        var scope = _serviceProvider.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<SmartContext>();
+
+        var handler = db
+            .ElementHandlers
+            .Include(h => h.HomeElements)
+            .First(h => h.Id == _id);
+        foreach (var item in handler.HomeElements)
         {
-
+            _elements.Add(new ShellyHomeElement(item));
         }
+        #endregion
+
+        await PollState();
     }
 
     #region signalR handler
@@ -141,7 +131,7 @@ internal class MainHandler : BackgroundService
             db.Log.Add(new LogItem
             {
                 ElementName = element.Name,
-                ElementType = element.ElementType.ToString(),
+                Type = $"{SmartResources.Element}: {element.ElementType}",
                 HandlerName = element.HandlerName,
                 MetaInfo = $"{SmartResources.Log_element_command}: [{command}] success:{cmdResult.IsSuccessStatusCode}",
                 Timestamp = DateTime.UtcNow,
@@ -191,7 +181,7 @@ internal class MainHandler : BackgroundService
                         db.Log.Add(new LogItem
                         {
                             ElementName = item.Name,
-                            ElementType = item.ElementType.ToString(),
+                            Type = $"{SmartResources.Element}: {item.ElementType}",
                             HandlerName = dbItem.ElementHandler.Name,
                             MetaInfo = $"{SmartResources.Log_element_state_changed}: [IsOn:{shellyState.IsOn}]",
                             Timestamp = DateTime.UtcNow,
@@ -204,7 +194,10 @@ internal class MainHandler : BackgroundService
         }
         await db.SaveChangesAsync();
 
-        await _hubConnection.SendAsync("ElementStatesChanged", changed);
+        if (_hubConnection is not null)
+        {
+            await _hubConnection.SendAsync("ElementStatesChanged", changed);
+        }
 
     }
     private async Task<ShellyStateDto?> GetState(string? connectionInfo, int id)

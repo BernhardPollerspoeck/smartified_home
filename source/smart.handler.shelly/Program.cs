@@ -11,17 +11,13 @@ var host = Host.CreateDefaultBuilder(args);
 host.ConfigureServices((o, s) =>
 {
 
-    var handlerSettings = new HandlerSettings();
-    o.Configuration.GetSection(nameof(HandlerSettings)).Bind(handlerSettings);
-    s.Configure<HandlerSettings>(o.Configuration.GetSection(nameof(HandlerSettings)));
 
     #region database
     var version = new Version(10, 6, 4);
     var serverVersion = new MariaDbServerVersion(version);
     s.AddDbContext<SmartContext>(options =>
-        options.UseMySql(o.Configuration.GetConnectionString("shelly"), serverVersion));
+        options.UseMySql(o.Configuration.GetValue<string>("database"), serverVersion));
     #endregion
-
 
     s.AddHttpClient();
 

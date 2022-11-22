@@ -22,10 +22,4 @@
     <ProjectReference Include="..\smart.resources\smart.resources.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

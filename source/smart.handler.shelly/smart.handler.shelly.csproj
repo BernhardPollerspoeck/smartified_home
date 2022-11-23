@@ -12,13 +12,11 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.10" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\smart.contract\smart.contract.csproj" />
     <ProjectReference Include="..\smart.core\smart.core.csproj" />
-    <ProjectReference Include="..\smart.database\smart.database.csproj" />
     <ProjectReference Include="..\smart.resources\smart.resources.csproj" />
   </ItemGroup>
 

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "smart.handler.shelly": {
+      "commandName": "Project",
+      "commandLineArgs": "id=1"
+    }
+  }
+}

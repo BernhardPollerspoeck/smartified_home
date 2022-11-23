@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "smart.handler.shelly", "sou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "smart.core", "source\smart.core\smart.core.csproj", "{0B919E84-ADD3-4A0C-B575-53C8700F6E69}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "smart.database", "source\smart.database\smart.database.csproj", "{43773FD0-C899-4705-937C-CD353A652327}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "smart.contract", "source\smart.contract\smart.contract.csproj", "{ADAD0661-A278-48E1-B391-B2AD0BDDC2B9}"
 EndProject
 Global
@@ -31,10 +29,6 @@ Global
 		{0B919E84-ADD3-4A0C-B575-53C8700F6E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B919E84-ADD3-4A0C-B575-53C8700F6E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B919E84-ADD3-4A0C-B575-53C8700F6E69}.Release|Any CPU.Build.0 = Release|Any CPU
-		{43773FD0-C899-4705-937C-CD353A652327}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{43773FD0-C899-4705-937C-CD353A652327}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{43773FD0-C899-4705-937C-CD353A652327}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{43773FD0-C899-4705-937C-CD353A652327}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ADAD0661-A278-48E1-B391-B2AD0BDDC2B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ADAD0661-A278-48E1-B391-B2AD0BDDC2B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADAD0661-A278-48E1-B391-B2AD0BDDC2B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -44,7 +38,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5614890F-885D-4231-9936-87533C0377A0}
 		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail","PunctuationLead"]}
+		SolutionGuid = {5614890F-885D-4231-9936-87533C0377A0}
 	EndGlobalSection
 EndGlobal

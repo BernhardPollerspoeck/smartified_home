@@ -2,7 +2,7 @@
   "profiles": {
     "smart.handler.shelly": {
       "commandName": "Project",
-      "commandLineArgs": "id=1"
+      "commandLineArgs": "id=1 hub=\"http://localhost:5011\""
     }
   }
 }

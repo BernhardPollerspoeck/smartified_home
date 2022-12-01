@@ -61,7 +61,15 @@ public class ElementController : BaseController
         });
         await _context.SaveChangesAsync();
 
-        await HandlerHub.NewElement(_hubContext, element.Id, dto.ConnectionInfo, handler.Id);
+        await HandlerHub.ElementInfo(_hubContext, new[]
+        {
+            new StateElement
+            {
+                Id = element.Id,
+                State = element.StateData,
+                Connection= dto.ConnectionInfo
+            }
+        }, handler.Id);
 
         return Ok();
     }
@@ -77,8 +85,24 @@ public class ElementController : BaseController
         {
             throw new AppException(SmartResources.Api_Ex_handler_not_found);
         }
+        var element = handler.HomeElements.FirstOrDefault(e => e.Id == dto.Id);
+        if (element is null)
+        {
+            throw new AppException(SmartResources.Api_Ex_element_not_found);
+        }
 
-        await HandlerHub.SendElementCommand(_hubContext, dto.Id, dto.Command, handler.Id);
+
+        await HandlerHub
+            .SendElementCommand(
+                _hubContext,
+                new StateElement
+                {
+                    Id = element.Id,
+                    State = element.StateData,
+                    Connection = element.ConnectionInfo,
+                },
+                dto.Command,
+                handler.Id);
         return Ok();
     }
 

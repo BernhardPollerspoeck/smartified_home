@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "smart.handler.shelly", "sou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "smart.core", "source\smart.core\smart.core.csproj", "{0B919E84-ADD3-4A0C-B575-53C8700F6E69}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "smart.contract", "source\smart.contract\smart.contract.csproj", "{ADAD0661-A278-48E1-B391-B2AD0BDDC2B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "smart.contract", "source\smart.contract\smart.contract.csproj", "{89219D12-2C4C-40D9-A05F-86D0EC883247}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{0B919E84-ADD3-4A0C-B575-53C8700F6E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B919E84-ADD3-4A0C-B575-53C8700F6E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B919E84-ADD3-4A0C-B575-53C8700F6E69}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ADAD0661-A278-48E1-B391-B2AD0BDDC2B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ADAD0661-A278-48E1-B391-B2AD0BDDC2B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ADAD0661-A278-48E1-B391-B2AD0BDDC2B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ADAD0661-A278-48E1-B391-B2AD0BDDC2B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89219D12-2C4C-40D9-A05F-86D0EC883247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89219D12-2C4C-40D9-A05F-86D0EC883247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89219D12-2C4C-40D9-A05F-86D0EC883247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89219D12-2C4C-40D9-A05F-86D0EC883247}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

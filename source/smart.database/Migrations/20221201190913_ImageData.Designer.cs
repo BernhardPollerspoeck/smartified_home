@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using smart.database;
 
@@ -10,9 +11,10 @@ using smart.database;
 namespace smart.database.Migrations
 {
     [DbContext(typeof(SmartContext))]
-    partial class SmartContextModelSnapshot : ModelSnapshot
+    [Migration("20221201190913_ImageData")]
+    partial class ImageData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

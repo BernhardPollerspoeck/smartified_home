@@ -1,5 +1,6 @@
 using asp.net.core.helper.core.Seed.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using smart.api.Hubs;
 using smart.api.Middlewares;
 using smart.api.Services;
@@ -8,6 +9,14 @@ using smart.core.Models;
 using smart.database;
 using smart.resources;
 using System.Threading.Channels;
+
+//TODO: project plan:
+// - remove handler (including all elements)
+// - remove element
+// - 
+// - 
+// - 
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +43,7 @@ builder.Services.AddScoped<IPasswordRuleService, PasswordRuleService>();
 
 builder.Services.AddTransient<HandlerService>();
 
-builder.Services.AddHostedService<HandlerProcessService>();
+//TODO:builder.Services.AddHostedService<HandlerProcessService>();
 
 //channel streaming
 builder.Services.AddSingleton(Channel.CreateUnbounded<ElementHandler>(new UnboundedChannelOptions
@@ -60,6 +69,13 @@ if (apiSettings.Urls is null)
 builder.WebHost.UseUrls(apiSettings.Urls);
 #endregion
 
+#region logging
+builder.Host.UseSerilog((ctx, services, cfg) => cfg
+        .MinimumLevel.Debug()
+        .WriteTo.File("log.txt")
+        .WriteTo.Console());
+#endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -69,6 +85,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+#region global cors policy
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+#endregion
 
 #region middlewares
 app.UseMiddleware<ErrorHandlerMiddleware>();

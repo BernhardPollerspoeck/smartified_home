@@ -180,4 +180,7 @@
   <data name="Api_Ex_handler_already_existing" xml:space="preserve">
     <value>Handler already exists</value>
   </data>
+  <data name="Api_Ex_image_not_found" xml:space="preserve">
+    <value>Image not found.</value>
+  </data>
 </root>

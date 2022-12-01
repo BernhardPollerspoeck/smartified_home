@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "smart.resources", "source\s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "smart.core", "source\smart.core\smart.core.csproj", "{9C831CA9-96B5-4286-AED5-E4EB76B7952A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{07BF6733-CE86-414A-907D-CA3174D45550}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestImageDataConverter", "source\tools\TestImageDataConverter\TestImageDataConverter.csproj", "{842D194C-2C97-414D-B3B6-4B030C8FC70E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,12 +43,19 @@ Global
 		{9C831CA9-96B5-4286-AED5-E4EB76B7952A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C831CA9-96B5-4286-AED5-E4EB76B7952A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C831CA9-96B5-4286-AED5-E4EB76B7952A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{842D194C-2C97-414D-B3B6-4B030C8FC70E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{842D194C-2C97-414D-B3B6-4B030C8FC70E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{842D194C-2C97-414D-B3B6-4B030C8FC70E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{842D194C-2C97-414D-B3B6-4B030C8FC70E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{842D194C-2C97-414D-B3B6-4B030C8FC70E} = {07BF6733-CE86-414A-907D-CA3174D45550}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail","PunctuationLead","PunctuationTail"]}
 		SolutionGuid = {5614890F-885D-4231-9936-87533C0377A0}
+		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail","PunctuationLead","PunctuationTail"]}
 	EndGlobalSection
 EndGlobal

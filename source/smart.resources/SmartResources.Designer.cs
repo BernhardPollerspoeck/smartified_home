@@ -88,6 +88,15 @@ namespace smart.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image not found..
+        /// </summary>
+        public static string Api_Ex_image_not_found {
+            get {
+                return ResourceManager.GetString("Api_Ex_image_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid login..
         /// </summary>
         public static string Api_Ex_invalid_login {
